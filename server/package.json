@@ -1,0 +1,11 @@
+{
+  "name": "proyecto202202",
+  "version": "1.0.0",
+  "description": "Repositorio para el curso de programación",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cristhian Garita",
+  "license": "ISC"
+}

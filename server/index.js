@@ -11,7 +11,7 @@ mongoose.connection.on("error", function (e) {
 
 //Mensaje de conexión exitosa a la base de datos
 mongoose.connection.once("open", function (e) {
-    console.log('ConexiÃ³n a la base de datos exitosa')
+    console.log('Conexión a la base de datos exitosa')
 });
 
 //Declaración de los schemas

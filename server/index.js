@@ -1,5 +1,7 @@
 //Inclusión de la librería
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const {Schema, model} = require("mongoose");
+
 
 //Conexión a la base de datos
 mongoose.connect("mongodb://localhost/universidad");
@@ -16,27 +18,22 @@ mongoose.connection.once("open", function (e) {
 });
 
 //Declaración de los schemas
-var Carrera_Schema = mongoose.Schema({
-    nombre: String,
-    descripcion: String,
-    activo: {
-        type: Boolean,
-        default: false,
-        require: true
+var Carrera_Schema = Schema(
+    {
+        nombre: String,
+        descripcion: String,
+        activo: {
+            type: Boolean,
+            default: false,
+            require: true
+        }
     },
-    creado_en: {
-        type: Date,
-        default: Date.now,
-    },
-    actualizado_en: { 
-        type: Date, 
-        default: Date.now 
-    },
-});
+    {timestamps: true}
+);
 
 
 //Declaración de los schemas
-var Estado_Schema = mongoose.Schema(
+var Estado_Schema = Schema(
     {
         nombre: String,
         descripcion: String
@@ -45,7 +42,7 @@ var Estado_Schema = mongoose.Schema(
 );
 
 
-var Factura_Schema = mongoose.Schema(
+var Factura_Schema = Schema(
     {
         num_Factura: Number,
         nom_Cliente: String,
@@ -58,7 +55,6 @@ var Factura_Schema = mongoose.Schema(
         }
     },
     {timestamps: true}
-
 );
 
 // Creación del modelo
@@ -84,7 +80,7 @@ model_factura.create({  num_Factura: 1,
                         nom_Cliente: "CGF", 
                         dir_Cliente: "SJO",
                         tel_Cliente: "8888",
-                        estado: "6295701cdd90740032907c2d"
+                        estado: "62957d1a29108f73c0abd188"
                     }, 
     function(err) {
         if (err) return console.error(err);

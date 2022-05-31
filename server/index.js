@@ -1,6 +1,5 @@
 //Inclusión de la librería
-var mongoose = require("mongoose"); //npm install mongoose –save
-var {Schema} = require("mongoose"); 
+const { Schema, model } = require("mongoose");
 
 //Conexión a la base de datos
 mongoose.connect("mongodb://localhost/universidad");
@@ -62,9 +61,9 @@ var Factura_Schema = mongoose.Schema(
 );
 
 // Creación del modelo
-var model_carrera = mongoose.model("carreras", Carrera_Schema);
-var model_estado = mongoose.model("estados", Estado_Schema);
-var model_factura = mongoose.model("facturas", Factura_Schema);
+var model_carrera = model("carreras", Carrera_Schema);
+var model_estado = model("estados", Estado_Schema);
+var model_factura = model("facturas", Factura_Schema);
 
 // Se inserta un objeto utilizando el modelo
 model_carrera.create({ nombre: "Otra", descripcion: "Prueba", activo: true }, 

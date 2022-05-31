@@ -44,6 +44,7 @@ var Estado_Schema = mongoose.Schema(
     {timestamps: true}
 );
 
+
 var Factura_Schema = mongoose.Schema(
     {
         num_Factura: Number,

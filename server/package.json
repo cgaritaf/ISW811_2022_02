@@ -4,11 +4,22 @@
   "description": "Repositorio para el curso de programación",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "develop" : "nodemon index.js"
   },
   "author": "Cristhian Garita",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^6.3.5"
+    "bcrypt-nodejs": "^0.0.3",
+    "chalk": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.5",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.16",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.0"
   }
 }

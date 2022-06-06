@@ -205,10 +205,8 @@ const dotEnv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
 const logger = require("morgan");
-const chalk = require("chalk");
 const mongoose = require("mongoose");
 const app = express();
-const passport = require('passport');
 
 // Routes
 
@@ -254,13 +252,10 @@ app.use("/facturas/", facturasRouter);
 
 // iniciamos nuestro servidor
 app.listen(port, () => {
-  console.log(
-    `${chalk.green("✓")} App is running at ${chalk.bgGreen(
-      `http://localhost:${port}`
-    )}`
-  );
+  console.log(`http://localhost:${port}`);
   console.log("Press CTRL-C to stop\n");
 });
+
 
 ```
 

@@ -47,6 +47,7 @@ app.use(
 app.use("/facturas/", facturasRouter);
 
 
+
 // iniciamos nuestro servidor
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);

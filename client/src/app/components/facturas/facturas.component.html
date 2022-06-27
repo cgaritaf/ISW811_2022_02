@@ -1,0 +1,86 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+    <mat-toolbar>
+      <span>Facturas</span>
+    </mat-toolbar>
+
+</div>
+<div class="contenido">
+    <br>
+    <button mat-raised-button color="primary" routerLink="/dashboard/facturaForm" routerLinkActive="router-link-active" >Agregar Factura</button>
+
+    <div  *ngIf="listaFacturas.length==0">
+        <p>No existen datos para mostrar</p>
+    </div>
+
+    <mat-form-field appearance="standard">
+        <mat-label>Filtro</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ejm. Cristhian" #input>
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      
+        <!-- Position Column -->
+        <ng-container matColumnDef="numFactura">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Núm. Factura</th>
+          <td mat-cell *matCellDef="let element"> {{element.numFactura}} </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="nomCliente">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Cliente </th>
+          <td mat-cell *matCellDef="let element"> {{element.nomCliente}} </td>
+        </ng-container>
+      
+        <!-- Weight Column -->
+        <ng-container matColumnDef="dirCliente">
+          <th mat-header-cell *matHeaderCellDef> Dirección Cliente </th>
+          <td mat-cell *matCellDef="let element"> {{element.dirCliente}} </td>
+        </ng-container>
+      
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="telCliente">
+          <th mat-header-cell *matHeaderCellDef> Teléfono Cliente </th>
+          <td mat-cell *matCellDef="let element"> {{element.telCliente}} </td>
+        </ng-container>
+
+        <!--
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef> Estado</th>
+          <td mat-cell *matCellDef="let element"> {{element.estado.nombre}} </td>
+        </ng-container>
+
+        -->
+        
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef style="text-align: right;"> Acciones </th>
+            <td mat-cell *matCellDef="let element" style="text-align: right;"> 
+                <a  (click)="modificarFactura(element);">
+                    <mat-icon
+                    mat-raised-button #tooltip="matTooltip"
+                    matTooltip="Editar información"
+                    class="cursorPointer" style="color: #d49c18;">edit</mat-icon>
+                </a>
+                <a (click)="eliminarFactura(element);"> 
+                    <mat-icon 
+                    mat-raised-button #tooltip="matTooltip"
+                    matTooltip="Eliminar información"
+                    class="cursorPointer" style="color: #af1313;">delete</mat-icon>
+                </a>
+            </td>
+          </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  </div>
+
+
+  
+  

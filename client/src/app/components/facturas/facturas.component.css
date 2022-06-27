@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  th{
+    width: 20%;
+  }
+
+  .cursorPointer{
+    cursor: pointer;
+  }
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+
+
+  .contenido{
+    margin-left: 20px;
+    margin-right: 20px;
+  }

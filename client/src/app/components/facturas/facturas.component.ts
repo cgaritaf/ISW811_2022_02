@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Factura } from '../../models/factura';
+import { Factura } from '../../models/factura.model';
 import { FacturaService } from '../../service/factura.service';
 import { Router } from '@angular/router';
 

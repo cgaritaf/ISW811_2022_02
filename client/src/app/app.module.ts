@@ -12,10 +12,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
 
-import { HttpClientModule } from '@angular/common/http';
-
-//Todos los modulos de angular material y recursos compartidos
 import { SharedModule } from './components/shared/shared.module';
+
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -39,4 +38,3 @@ import { SharedModule } from './components/shared/shared.module';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

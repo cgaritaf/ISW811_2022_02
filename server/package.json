@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "develop" : "nodemon index.js"
+    "develop": "nodemon index.js"
   },
   "author": "Cristhian Garita",
   "license": "ISC",
@@ -18,7 +18,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.5",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.16",
+    "nodemon": "^1.3.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0"
   }

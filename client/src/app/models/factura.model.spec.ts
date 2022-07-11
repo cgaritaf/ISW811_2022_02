@@ -1,4 +1,4 @@
-import { Factura } from './factura';
+import { Factura } from './factura.model';
 
 describe('Factura', () => {
   it('should create an instance', () => {

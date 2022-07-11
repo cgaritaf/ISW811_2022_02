@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
 
     //Se muestra el formulario
     this.loading = false;
-    
+   
   }
 
   //Médodo para mostrar el snack bar de angular material
@@ -72,3 +72,4 @@ export class LoginComponent implements OnInit {
   }
 
 }
+

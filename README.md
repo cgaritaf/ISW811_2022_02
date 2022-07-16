@@ -999,8 +999,389 @@ Quedando de la siguiente forma, el componente para mostrar el listado de factura
 ![](https://fyourd.co/utn/paso3_14.png)
 
 
+# Desarrollo de la opción para insertar facturas
+
+Para la creación de facturas requerimos crear un nuevo compomente que contenga el formulario de los datos de facturas, el cual lo podemos crear con el comando Angular CLI:
+
+```
+ng g c components/facturas/facturas_form
+```
+
+![](https://fyourd.co/utn/paso_802.png)
+
+Después de crear el compomente para el formulario de facturas, debemos crear las nuevas rutas para las funcionalidades de insertar y modificar facturas (vamos a utilizar el mismo compomente para ambas funcionalidades)
 
 
+```
+{ path: 'dashboard/facturas/form', component: FacturasFormComponent}, //CRUD o mantenimiento de facturas (Insertar)
+```
+
+![](https://fyourd.co/utn/paso_803.png)
+
+Luego procedemos modificar el link de botón "Agregar Facturas" de la pantalla que lista las facturas para que nos redirija al nuevo compomente creado
+
+![](https://fyourd.co/utn/paso_804.png)
+
+
+### Componente Facturas form, para la creación de nuevas facturas
+
+En el html del formulario para ingresar facturas, vamos a crear un formulario con los campos requeridos para almacenar facturas
+
+
+```
+<app-navbar></app-navbar>
+
+<div class="container">
+    <mat-toolbar>
+      <span>{{textPantalla}}</span> <!-- nombre de la pantalla según la funcinalidad -->
+    </mat-toolbar>
+
+</div>
+<div class="contenido">
+    <mat-card style="margin-top: 10px;" style="text-align: left;">
+        <form [formGroup]="form">
+            <mat-form-field >
+                <mat-label>Número de factura</mat-label>
+                <input matInput #input maxlength="10" placeholder="9999" autocomplete="off" formControlName="numFactura">
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label>Nombre del cliente</mat-label>
+                <input matInput #input maxlength="100" placeholder="Nombre completo" autocomplete="off" formControlName="nomCliente" >
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label>Dirección del cliente</mat-label>
+                <input matInput #input maxlength="200" placeholder="Dirección exacta" autocomplete="off"  formControlName="dirCliente" >
+            </mat-form-field>
+            <br>
+            <mat-form-field  >
+                <mat-label>Teléfono del cliente</mat-label>
+                <input matInput #input maxlength="8"  placeholder="99999999" autocomplete="off" formControlName="telCliente">
+            </mat-form-field>
+
+            <br>
+            <!--<mat-form-field>
+                <mat-select formControlName="estado"  placeholder="Selecciones un estado">
+                        <mat-option *ngFor="let estado of listaEstados" 
+                            [value]="estado._id">
+                            {{estado.nombre}}
+                  </mat-option>
+               </mat-select>
+             </mat-form-field> -->
+               
+            <br><br>
+            <button mat-raised-button color="warn" routerLink="../facturas" routerLinkActive="router-link-active" >Regresar</button>
+            <span *ngIf="isInsertar">
+                <button style="margin-left: 20px;" mat-raised-button color="primary" type="submit" [disabled] = "form.invalid" (click)="saveFactura()">Guardar factura</button>
+            </span>
+            <span *ngIf="!isInsertar">
+                <!-- <button style="margin-left: 20px;" mat-raised-button color="primary" type="submit" [disabled] = "form.invalid" (click)="modificarFactura()">Modificar factura</button> -->
+            </span>
+            
+        </form>
+    </mat-card>
+</div>
+```
+
+y en el TypeScript del nuevo compomente el debemos crear un formulario, al cual va a estar asociado el HTML con un método que nos permita guardar facturas
+
+```
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Factura } from 'src/app/models/factura.model';
+import { FacturaService } from 'src/app/service/factura.service';
+
+
+@Component({
+  selector: 'app-facturas-form',
+  templateUrl: './facturas-form.component.html',
+  styleUrls: ['./facturas-form.component.css']
+})
+export class FacturasFormComponent implements OnInit {
+
+  //***************************************************************/
+  //Atributos del compomente
+  //***************************************************************/
+
+  idFactura: number = 0;
+  textPantalla: string = 'Crear factura';
+  isInsertar: boolean = true;
+  form:FormGroup;
+  factura = new Factura;
+
+  constructor(private facturaService: FacturaService,
+    private fb: FormBuilder, private router: Router, 
+    private _snackbar: MatSnackBar,
+    private activeRouter: ActivatedRoute) {
+
+      //Formulario de la página de factura
+      this.form = this.fb.group({
+        numFactura: ['', Validators.required],
+        nomCliente: ['', Validators.required],
+        dirCliente: ['', Validators.required],
+        telCliente: ['', Validators.required]
+      });
+
+     }
+
+
+  ngOnInit(): void {
+  }
+
+
+  //***************************************************************/
+  //Método para guardar una nueva factura
+  //***************************************************************/
+
+  saveFactura(): void{
+    const data = {
+      numFactura: this.form.value.numFactura,
+      nomCliente: this.form.value.nomCliente,
+      dirCliente: this.form.value.dirCliente,
+      telCliente: this.form.value.telCliente
+    };
+
+    console.log(data);
+
+    this.facturaService.create(data)
+      .subscribe({
+        next: (res: any) => {
+          this.form.reset;
+          console.log(res);
+          this.router.navigateByUrl('dashboard/facturas');
+
+          this._snackbar.open('La factura fue agregada con exito, por favor verificar', '',{
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          })
+          
+        },
+        error: (e:any) => console.error(e)
+      });
+  }
+
+
+}
+
+```
+Quedando el formulario de la siguiente manera (ejecutar el cliente y realizar la prueba)
+
+![](https://fyourd.co/utn/paso_806.png)
+
+Después de probar la funcionalidad del botón "Guardar", el app debe redirigirnos al componente que lista el detalle de las facturas
+
+![](https://fyourd.co/utn/paso_807.png)
+
+# Desarrollo de la opción para modificar facturas facturas
+
+Para crear la opción de modificar facturas debemos codificar el método ya creado en el TypeScrip del compomente que muestra la lista de facturas, así como crear una ruta que nos permita enviar como parametro el ID de la factura a modificar.
+
+## Creación de la ruta para modificar
+
+Para utilizar el mismo compomente del formulario de facturas creado anteriormente, debemos crear una ruta que nos lleve al compomente creado pero que tenga la opción de recibir un ID en la URL, por lo que vamos a agregar dicha ruta en el app-routing.module.ts de la siguiente forma:
+
+```
+{ path: 'dashboard/facturas/:id', component: FacturasFormComponent}
+```
+
+![](https://fyourd.co/utn/paso_808.png)
+
+## Desarrollar el botón modificar 
+
+Lo que sigue es modificar el bóton modificar que tenemos en la tabla que muestra el listado de facturas, con el objetivo de que al dar clic en el botón modificar el sistema no lleve al compomente del formulario de facturas
+
+```
+ modificarFactura(element:any){
+
+    swal.fire({
+      title: `¿Desea modificar la factura #${element.numFactura} la a nombre de ${element.nomCliente}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, modificar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //Código de la lección 08
+        //se muestra en consola el ID que vamos a enviar en la URL
+        console.log(element._id);
+        //Llamamos al compomente de formulario de factursa pero le enviamos el ID
+        this.router.navigateByUrl(`dashboard/facturas/${element._id}`);
+        //Fin del código de la lección 08
+      } 
+
+    });
+
+  }// fin del método modificar
+```
+![](https://fyourd.co/utn/paso_809.png)
+
+## Utilización de compomente form factura para modificar
+
+Luego debemos modificar el compomente del formulario de factura, para que en el momento que el compomente reciba un paramatro el utilice el compomente para modificar la factura con el ID enviado, para lo que vamos a códificar el método ngOnInit del compomente form de facturas de la siguiente forma
+
+```
+ ngOnInit(): void {
+    //***************************************************************/
+    //Cuando se inicializa el compomente de consulta si el ID
+    //fue enviado por parametro
+    //***************************************************************/
+
+    this.activeRouter.params.subscribe((params: Params) => {      
+      console.log(params);
+      this.idFactura = params['id'];
+
+      //***********************************************/
+      //se consultan los datos de la factura 
+      //***********************************************/
+
+      if(this.idFactura !== undefined){
+        this.isInsertar = false;
+        //de modifica la variable que muestra el titulo de la pantalla
+        this.textPantalla = "Modificar factura Prueba";
+        //se consultan los datos de la factura 
+        this.facturaService.get(this.idFactura)
+          .subscribe({
+            next: (res: any) => {
+              
+              //La variable form que esta asociada el formulario html es cargado con los datos que se consultaron
+              this.factura = res;
+              this.form.setValue({numFactura: this.factura.numFactura, 
+                                  nomCliente: this.factura.nomCliente, 
+                                  dirCliente: this.factura.dirCliente, 
+                                  telCliente: this.factura.telCliente});
+
+              console.log(this.factura);
+
+              this._snackbar.open('La factura fue cargada con exito, por favor verificar', '',{
+                duration: 5000,
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom'
+              });
+              
+            },
+            error: (e:any) => console.error(e)
+        });
+  
+        console.log('id factura' + this.idFactura);
+
+      }
+
+    });
+  }
+```
+
+![](https://fyourd.co/utn/paso_810.png)
+
+## Habilitación del botón modificar
+
+En el HTML del compomente del formulario de facturas el bóton modificar estaba comentado, por lo que debemos habilitar en el HTML dicho botón para poder modificar facturas, el cual se muestra siempre y cuando la variable isInsertar esta en falso
+
+![](https://fyourd.co/utn/paso_811.png)
+
+Posteriormente debemos crear un método que consuma el servicio del API creado para poder modificar la factura seleccionada, por lo que debemos crear un método en el TypeScript del compomente del formulario de facturas llamado modificarFactura, con el siguiente código:
+
+```
+//***************************************************************/
+  //Método para modificar una factura
+  //***************************************************************/
+  modificarFactura(): void{
+    const data = {
+      numFactura: this.form.value.numFactura,
+      nomCliente: this.form.value.nomCliente,
+      dirCliente: this.form.value.dirCliente,
+      telCliente: this.form.value.telCliente,
+      estado: this.form.value.estado
+    };
+
+    console.log(data);
+
+    this.facturaService.update(this.idFactura,data)
+      .subscribe({
+        next: (res: any) => {
+          this.form.reset;
+          console.log(res);
+          this.router.navigateByUrl('/dashboard/facturas');
+
+          this._snackbar.open('La factura fue modificada con exito, por favor verificar', '',{
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          })
+          
+        },
+        error: (e:any) => console.error(e)
+      });
+
+  }
+```
+
+![](https://fyourd.co/utn/paso_812.png)
+
+Obteniendo como resultado la funcionalidad de modificar facturas
+
+![](https://fyourd.co/utn/paso_814.png)
+
+![](https://fyourd.co/utn/paso_813.png)
+
+
+# Eliminar facturas
+
+Para elimar facturas debemos modificar el botón eliminar en el compomente que lista todas las facturas, en la tabla además del botón modificar tenemos el botón eliminar el cual nos permite consumir los API creados en el backEnd e implementados en el factura.service.ts en el frontend, para lo cual vamos a incluir el siguiente código que nos permita eliminar facturas
+
+```
+ eliminarFactura(element:any){
+
+    swal.fire({
+      title: `¿Desea eliminar la factura #${element.numFactura} la a nombre de ${element.nomCliente}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //Código de la lección 08
+        //se muestra en consola el ID que vamos a enviar en la URL
+        console.log(element._id);
+        //Llamamos al compomente metodo de eliminar existente en el factura service
+        this.facturaService.delete(element._id)
+          .subscribe({
+             next: (data) => {
+               this.consultarFacturas();
+               console.log(data);
+              
+               this._snackbar.open('La factura eliminada correctamente', '',{
+                  duration: 5000,
+                  horizontalPosition: 'center',
+                  verticalPosition: 'bottom'
+                });
+    
+             },
+             error: (e: any) => console.error(e)
+          });
+        //Fin del código de la lección 08
+      } 
+
+    });
+    
+  } // fin del médoto de eliminar
+
+```
+
+![](https://fyourd.co/utn/paso_815.png)
+
+Lo que nos permitira eliminar facturas de la tabla que muestra la información
+
+![](https://fyourd.co/utn/paso_816.png)
+
+![](https://fyourd.co/utn/paso_817.png)
 
 
 

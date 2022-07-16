@@ -15,6 +15,7 @@ import { ReportesComponent } from './components/reportes/reportes.component';
 import { SharedModule } from './components/shared/shared.module';
 
 import { HttpClientModule } from '@angular/common/http';
+import { FacturasFormComponent } from './components/facturas/facturas-form/facturas-form.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     NavbarComponent,
     PerfilComponent,
-    ReportesComponent
+    ReportesComponent,
+    FacturasFormComponent
   ],
   imports: [
     BrowserModule,

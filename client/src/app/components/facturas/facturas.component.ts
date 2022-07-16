@@ -75,7 +75,26 @@ export class FacturasComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-
+        //Código de la lección 08
+        //se muestra en consola el ID que vamos a enviar en la URL
+        console.log(element._id);
+        //Llamamos al compomente metodo de eliminar existente en el factura service
+        this.facturaService.delete(element._id)
+          .subscribe({
+             next: (data) => {
+               this.consultarFacturas();
+               console.log(data);
+              
+               this._snackbar.open('La factura eliminada correctamente', '',{
+                  duration: 5000,
+                  horizontalPosition: 'center',
+                  verticalPosition: 'bottom'
+                });
+    
+             },
+             error: (e: any) => console.error(e)
+          });
+        //Fin del código de la lección 08
       } 
 
     });
@@ -95,7 +114,12 @@ export class FacturasComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        
+        //Código de la lección 08
+        //se muestra en consola el ID que vamos a enviar en la URL
+        console.log(element._id);
+        //Llamamos al compomente de formulario de factursa pero le enviamos el ID
+        this.router.navigateByUrl(`dashboard/facturas/${element._id}`);
+        //Fin del código de la lección 08
       } 
 
     });

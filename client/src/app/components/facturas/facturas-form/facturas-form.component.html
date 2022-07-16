@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+    <mat-toolbar>
+      <span>{{textPantalla}}</span> <!-- nombre de la pantalla según la funcinalidad -->
+    </mat-toolbar>
+
+</div>
+<div class="contenido">
+    <mat-card style="margin-top: 10px;" style="text-align: left;">
+        <form [formGroup]="form">
+            <mat-form-field >
+                <mat-label>Número de factura</mat-label>
+                <input matInput #input maxlength="10" placeholder="9999" autocomplete="off" formControlName="numFactura">
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label>Nombre del cliente</mat-label>
+                <input matInput #input maxlength="100" placeholder="Nombre completo" autocomplete="off" formControlName="nomCliente" >
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label>Dirección del cliente</mat-label>
+                <input matInput #input maxlength="200" placeholder="Dirección exacta" autocomplete="off"  formControlName="dirCliente" >
+            </mat-form-field>
+            <br>
+            <mat-form-field  >
+                <mat-label>Teléfono del cliente</mat-label>
+                <input matInput #input maxlength="8"  placeholder="99999999" autocomplete="off" formControlName="telCliente">
+            </mat-form-field>
+
+            <br>
+            <!--<mat-form-field>
+                <mat-select formControlName="estado"  placeholder="Selecciones un estado">
+                        <mat-option *ngFor="let estado of listaEstados" 
+                            [value]="estado._id">
+                            {{estado.nombre}}
+                  </mat-option>
+               </mat-select>
+             </mat-form-field> -->
+               
+            <br><br>
+            <button mat-raised-button color="warn" routerLink="../../facturas/" routerLinkActive="router-link-active" >Regresar</button>
+            <span *ngIf="isInsertar">
+                <button style="margin-left: 20px;" mat-raised-button color="primary" type="submit" [disabled] = "form.invalid" (click)="saveFactura()">Guardar factura</button>
+            </span>
+            <span *ngIf="!isInsertar">
+                <button style="margin-left: 20px;" 
+                    mat-raised-button color="primary" 
+                    type="submit" [disabled] = "form.invalid" 
+                    (click)="modificarFactura()">Modificar factura
+                </button> 
+            </span>
+            
+        </form>
+    </mat-card>
+</div>

@@ -3,14 +3,14 @@ const FacturaModel = require("../models/factura");
 
 //Método para obtener las facturas
 module.exports.get = async (req, res, next) => {
-  const facturas = await FacturaModel.find().exec();
+  const facturas = await FacturaModel.find().populate("estado").exec(); //Para que cargue los datos del objeto estado asociado con el populate
   res.json(facturas);
 };
 
 //Método para obtener una facturas por ID
 module.exports.getById = async (req, res, next) => {
   const id = req.params.id;
-  const factura = await FacturaModel.findOne({ _id: id });
+  const factura = await FacturaModel.findOne({ _id: id }).populate("estado").exec(); //Para que cargue los datos del objeto estado asociado con el populate
   res.json(factura);
 };
 
@@ -41,4 +41,3 @@ module.exports.update = async (req, res, next) => {
   );
   res.json(factura);
 };
-

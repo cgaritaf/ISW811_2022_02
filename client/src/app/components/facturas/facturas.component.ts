@@ -22,7 +22,7 @@ export class FacturasComponent implements OnInit {
   listaFacturas : Factura[] = [];
 
   //Configuración de la tabla
-  displayedColumns: string[] = ['numFactura', 'nomCliente', 'dirCliente', 'telCliente',   'acciones'];
+  displayedColumns: string[] = ['numFactura', 'nomCliente', 'dirCliente', 'telCliente', 'estado',  'acciones'];
   dataSource!:  MatTableDataSource<any>;
 
   //Para la paginación

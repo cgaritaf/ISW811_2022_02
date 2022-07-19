@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Factura } from 'src/app/models/factura.model';
+import { Estado } from 'src/app/models/estado.model';
 import { FacturaService } from 'src/app/service/factura.service';
-
+import { EstadoService } from 'src/app/service/estado.service';
 
 @Component({
   selector: 'app-facturas-form',
@@ -23,7 +24,11 @@ export class FacturasFormComponent implements OnInit {
   form:FormGroup;
   factura = new Factura;
 
-  constructor(private facturaService: FacturaService,
+  //Lección 9, lista de estados
+  listaEstados : Estado[] = [];
+  //Lección 9, lista de estados
+
+  constructor(private facturaService: FacturaService, private estadoService: EstadoService,
     private fb: FormBuilder, private router: Router, 
     private _snackbar: MatSnackBar,
     private activeRouter: ActivatedRoute) {
@@ -33,13 +38,22 @@ export class FacturasFormComponent implements OnInit {
         numFactura: ['', Validators.required],
         nomCliente: ['', Validators.required],
         dirCliente: ['', Validators.required],
-        telCliente: ['', Validators.required]
+        telCliente: ['', Validators.required],
+        estado: ['', Validators.required]
       });
 
      }
 
 
   ngOnInit(): void {
+
+    //***************************************************************/
+    //Se carga la información de los estados
+    //***************************************************************/
+    //Lección 9, lista de estados
+    this.cargarEstados();
+    //Lección 9, lista de estados
+
     //***************************************************************/
     //Cuando se inicializa el compomente de consulta si el ID
     //fue enviado por parametro
@@ -67,7 +81,8 @@ export class FacturasFormComponent implements OnInit {
               this.form.setValue({numFactura: this.factura.numFactura, 
                                   nomCliente: this.factura.nomCliente, 
                                   dirCliente: this.factura.dirCliente, 
-                                  telCliente: this.factura.telCliente});
+                                  telCliente: this.factura.telCliente,
+                                  estado: this.factura.estado._id});
 
               console.log(this.factura);
 
@@ -98,7 +113,8 @@ export class FacturasFormComponent implements OnInit {
       numFactura: this.form.value.numFactura,
       nomCliente: this.form.value.nomCliente,
       dirCliente: this.form.value.dirCliente,
-      telCliente: this.form.value.telCliente
+      telCliente: this.form.value.telCliente,
+      estado: this.form.value.estado
     };
 
     console.log(data);
@@ -154,6 +170,24 @@ export class FacturasFormComponent implements OnInit {
       });
 
   }
+
+  
+
+  //***************************************************************/
+  //Se carga la información de los estados para el select
+  //***************************************************************/
+  //Lección 9, lista de estados
+  cargarEstados(): void{
+    this.estadoService.getAll()
+      .subscribe({
+        next: (res: any) => {
+          console.log(res);
+          this.listaEstados = res;
+        },
+        error: (e:any) => console.error(e)
+      });
+  }
+  //Lección 9, lista de estados
 
 
 }

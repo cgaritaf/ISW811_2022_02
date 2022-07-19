@@ -19,6 +19,9 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 
+//Lección 09
+import {MatSelectModule} from '@angular/material/select';
+
 //Componente para formularios
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -40,7 +43,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatSortModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSelectModule //Lección09
   ],
   exports:[
     CommonModule,
@@ -58,7 +62,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatSortModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSelectModule //Lección09
   ]
 })
 export class SharedModule { }

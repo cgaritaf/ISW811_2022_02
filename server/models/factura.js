@@ -11,7 +11,15 @@ const FacturaSchema = new Schema(
     },
     nomCliente: String,
     dirCliente: String,
-    telCliente: Number
+    telCliente: Number,
+    //Lección 09
+    estado: //Referencia con estado
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Estados",
+        required: true
+      },
+    //Fin de la lección 09
   },
   { timestamps: true } //fechas de creación y modificación
 );

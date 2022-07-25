@@ -17,6 +17,14 @@ import { SharedModule } from './components/shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FacturasFormComponent } from './components/facturas/facturas-form/facturas-form.component';
 
+
+//Implementación de los Guards en el proyecto
+import { AuthGuard } from './shared/guards/auth.guard';
+
+//Implementación de los Interceptors en el proyecto
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './helpers/auth.interceptor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +44,10 @@ import { FacturasFormComponent } from './components/facturas/facturas-form/factu
     SharedModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,12 +3,14 @@ const express = require("express");
 const cors = require("cors");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const passport = require('passport');
 const app = express();
 
 // Routes
 
 const facturasRouter = require("./routes/facturaRoutes");
 const estadosRouter = require("./routes/estadoRoutes");
+const userRouter = require("./routes/userRoutes");
 
 // esta linea ayuda a leer la configuracion que tenemos en el archivo .env
 dotEnv.config();
@@ -47,6 +49,7 @@ app.use(
 // todas las rutas las definimos aqui
 app.use("/facturas/", facturasRouter);
 app.use("/estados/", estadosRouter);
+app.use("/user/", userRouter);
 
 
 

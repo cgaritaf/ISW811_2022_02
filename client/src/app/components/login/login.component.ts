@@ -3,6 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
+
+import { UserService } from 'src/app/service/user.service';
+import { TokenStorageService } from '../../service/token-storage.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,7 +20,8 @@ export class LoginComponent implements OnInit {
   loading = false;
 
   //Constructor del componente
-  constructor(private router: Router, private fb: FormBuilder, private _snackbar: MatSnackBar) {
+  constructor(private router: Router, private fb: FormBuilder, private _snackbar: MatSnackBar, 
+    private userService: UserService, private tokenStorage: TokenStorageService) { 
     this.form = this.fb.group({
       usuario: ['', Validators.required],
       password: ['', Validators.required]
@@ -26,6 +31,7 @@ export class LoginComponent implements OnInit {
   //Método que se ejecuta al iniciar el componente
   ngOnInit(): void {
     this.loading = false;
+    this.tokenStorage.signOut();
   }
 
   //Médodo para ingresar o hacer logueo
@@ -35,21 +41,33 @@ export class LoginComponent implements OnInit {
       password: this.form.value.password
     };
 
-    if(dataInput.username === 'user' || dataInput.username === 'admin'){
-      //Se valida si es un acceso u otro
-      if (dataInput.username === 'user') {
-        this.router.navigateByUrl('/perfil');
-      }
-      if (dataInput.username === 'admin') {
-        this.router.navigateByUrl('/dashboard');
-      }
-    }else{
-      this.showMsg_snackBar("Usuario no valido");
-    }
+    //Llama al método de login
+    this.userService.singin(dataInput)
+      .subscribe({
+         next: (data) => {
+          console.log(data);
+          //se guarda la información en el local storage
+          this.tokenStorage.saveToken(data.token);
+          this.tokenStorage.saveUser(data);
 
-    //Se muestra el formulario
-    this.loading = false;
-   
+          //Se valida si es un acceso u otro
+          if (data.user.role === 'user') {
+            this.router.navigateByUrl('/perfil');
+          }
+          if (data.user.role === 'admin') {
+            this.router.navigateByUrl('/dashboard');
+          }
+          this.loading = false;
+          this.showMsg_snackBar('Bienvenido al sistema!');
+         },
+         error: (e: any) => {
+          if(e.status ===  401){//Acceso no autorizado
+            if(e.error.success=== false){}
+              this.showMsg_snackBar(e.error.msg);
+           }
+           this.loading = false;
+         }
+      });
   }
 
   //Médodo para mostrar el snack bar de angular material
